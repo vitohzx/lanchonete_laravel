@@ -4,7 +4,7 @@
     @include('partials.alerts')
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Categorias</h2>
-        {{ route(Nova Categoria</a>
+        <a href="{{ route('categorias.create') }}" class="btn btn-sm btn-primary">Nova Categoria </a>
     </div>
     <div class="card">
         <div class="card-body p-0">
@@ -30,10 +30,11 @@
                             </td>
                             <td>{{ $categoria->updated_at->format('d/m/Y H:i') }}</td>
                             <td class="text-end">
-                                {{ route(
+                                <a href="{{ route('categorias.edit', $categoria) }}" class="btn btn-sm btn-outline-secondary">
                                     Editar
                                 </a>
-                                {{ route(
+
+                                <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-sm btn-outline-danger">Excluir</button>
@@ -47,5 +48,4 @@
             </table>
         </div>
     </div>
-
 @endsection

@@ -10,4 +10,4 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/sobre', [SobreController::class, 'index'])->name('sobre');
 Route::get("/contato", [ContatoController::class, "index"])->name("contato");
 
-route::resource("categoria", CategoriaController::class);
+route::resource("categorias", CategoriaController::class);

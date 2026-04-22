@@ -6,11 +6,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarConteudo">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a href="cardapio">Cardápio</a></li>
-                <li class="nav-item"><a href="pedidos">Pedidos</a></li>
-                <li class="nav-item"><a href="contato">Contato</a></li>
-                <li class="nav-item"><a href="sobre">Sobre</a></li>
-                <li class="nav-item"> <a href="{{ route("categoria.index") }}"> a </a></li>
+                <li class="nav-item"><a href="cardapio">Cardápio</a> </li> &emsp; &emsp;
+                <li class="nav-item"><a href="pedidos">Pedidos</a> </li> &emsp; &emsp;
+                <li class="nav-item"><a href="contato">Contato</a>  </li> &emsp; &emsp;
+                <li class="nav-item"><a href="sobre">Sobre</a>  </li> &emsp; &emsp;
+                <li><a href ="/categorias">Categorias</a></li>
             </ul>
         </div>
     </div>
