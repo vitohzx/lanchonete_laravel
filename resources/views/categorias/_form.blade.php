@@ -2,6 +2,7 @@
     $isEdit = isset($categoria);
 @endphp
 <div class="mb-3">
+    @include("partials.alerts")
     <label for="nome" class="form-label">Nome</label>
     <input type="text" class="form-control @error('nome') is-invalid @enderror"
            id="nome" name="nome" value="{{ old('nome', $categoria->nome ?? '') }}" maxlength="100">
@@ -25,5 +26,4 @@
 <div class="d-flex gap-2">
     <button type="submit" class="btn btn-primary">{{ $isEdit ? 'Atualizar' : 'Salvar' }}</button>
     <a href="{{ route('categorias.index') }}" class="btn btn-secondary"> Cancelar </a>
-
 </div>

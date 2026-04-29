@@ -5,17 +5,17 @@
 
 
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2>Categorias</h2>
+        <h2>Produtos</h2>
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
 
-            <form method="GET" action="{{ route('categorias.index') }}" class="d-flex gap-2">
+            <form method="GET" action="{{ route('produtos.index') }}" class="d-flex gap-2">
                 <input type="text" name="q" value="{{ request('q') }}" class="form-control"
                     placeholder="Buscar por nome...">
                 <button class="btn btn-outline-secondary" type="submit">Buscar</button>
                 <a class="btn btn-outline-secondary" href="{{ route('categorias.index') }}">Limpar</a>
             </form>
 
-            <a class="btn btn-primary" href="{{ route('categorias.create') }}">Nova Categoria</a>
+            <a class="btn btn-primary" href="{{ route('produtos.create') }}">Novo Produto</a>
         </div>
     </div>
     <div class="card">
@@ -24,29 +24,31 @@
                 <thead class="table-light">
                     <tr>
                         <th>Nome</th>
-                        <th>Ativa</th>
+                        <th>Preço</th>
+                        <th>Ativo</th>
                         <th>Atualizado em</th>
                         <th class="text-end">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($categorias as $categoria)
+                    @forelse ($produtos as $produto)
                         <tr>
-                            <td>{{ $categoria->nome }}</td>
+                            <td>{{ $produto->nome }}</td>
+                            <td>{{ $produto->preco }}</td>
                             <td>
-                                @if ($categoria->ativa)
+                                @if ($produto->ativa)
                                     <span class="badge text-bg-success">Sim</span>
                                 @else
                                     <span class="badge text-bg-secondary">Não</span>
                                 @endif
                             </td>
-                            <td>{{ $categoria->updated_at->format('d/m/Y H:i') }}</td>
+                            <td>{{ $produto->updated_at->format('d/m/Y H:i') }}</td>
                             <td class="text-end">
                                 <a href="{{ route('categorias.edit', $categoria) }}" class="btn btn-sm btn-outline-secondary">
                                     Editar
                                 </a>
 
-                                <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" class="d-inline">
+                                <form action="{{ route('produtos.destroy', $produto) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-sm btn-outline-danger">Excluir</button>
@@ -55,15 +57,11 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center p-4 text-muted">Nenhuma categoria cadastrada.</td>
+                            <td colspan="4" class="text-center p-4 text-muted">Nenhum produto cadastrado.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
-            
-            <div class="mt-3">
-                {{ $categorias->links() }}
-            </div>
         </div>
     </div>
 @endsection
