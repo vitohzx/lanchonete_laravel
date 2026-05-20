@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProdutoRequest;
 use App\Models\Categoria;
 use App\Models\Produto;
 use Illuminate\Http\Request;
@@ -32,7 +33,13 @@ class ProdutoController extends Controller
 
     public function create()
     {
-        return view('produtos.create');
+        $categorias = Categoria::where('ativa', true)->orderBy('nome')->get();
+        return view('produtos.create', compact("categorias"));
+    }
+    public function edit(Produto $produto, Categoria $categorias)
+    {
+        $categorias = Categoria::where('ativa', true)->orderBy('nome')->get();
+        return view('produtos.edit', compact("produto", "categorias"));
     }
 
     public function store(Request $request)
@@ -41,8 +48,9 @@ class ProdutoController extends Controller
         $dados = $request->validate([
             'nome' => 'required|string|max:100|unique:categorias,nome',
             'descricao' => 'nullable|string|max:500',
-            "preco" => "required|decimal:2",
-            'ativa' => 'nullable|boolean',
+            "preco" => "required|numeric",
+            "categoria_id" => "required|integer|exists:categorias,id",
+            'ativo' => 'nullable|boolean',
         ]);
 
         $dados['ativa'] = $request->boolean('ativa');
@@ -59,5 +67,26 @@ class ProdutoController extends Controller
 
         return redirect()->route('produtos.index')
             ->with('sucesso', 'Produto excluído com sucesso!');
+    }
+
+    public function update(ProdutoRequest $request, Produto $produto)
+    {
+        $dados["preco"] = number_format($request->preco, "2", ".", "");
+
+        $dados = $request->validate([
+            'nome' => 'required|string|max:100|unique:categorias,nome',
+            'descricao' => 'nullable|string|max:500',
+            "preco" => "required|numeric",
+            "categoria_id" => "required|integer|exists:categorias,id",
+            'ativo' => 'nullable|boolean',
+        ]);
+
+        // Converter checkbox para boolean
+        $dados['ativa'] = $request->boolean('ativa');
+
+        $produto->update($dados);
+
+        return redirect()->route('produtos.index')
+            ->with('sucesso', 'Produto atualizado com sucesso!');
     }
 }

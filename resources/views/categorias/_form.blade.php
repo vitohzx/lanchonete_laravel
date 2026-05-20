@@ -25,5 +25,5 @@
 </div>
 <div class="d-flex gap-2">
     <button type="submit" class="btn btn-primary">{{ $isEdit ? 'Atualizar' : 'Salvar' }}</button>
-    <a href="{{ route('categorias.index') }}" class="btn btn-secondary"> Cancelar </a>
+    <a href="{{ route('produtos.index') }}" class="btn btn-secondary"> Cancelar </a>
 </div>

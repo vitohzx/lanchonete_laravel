@@ -36,7 +36,7 @@
                             <td>{{ $produto->nome }}</td>
                             <td>{{ $produto->preco }}</td>
                             <td>
-                                @if ($produto->ativa)
+                                @if ($produto->ativo)
                                     <span class="badge text-bg-success">Sim</span>
                                 @else
                                     <span class="badge text-bg-secondary">Não</span>
@@ -44,7 +44,7 @@
                             </td>
                             <td>{{ $produto->updated_at->format('d/m/Y H:i') }}</td>
                             <td class="text-end">
-                                <a href="{{ route('categorias.edit', $categoria) }}" class="btn btn-sm btn-outline-secondary">
+                                <a href="{{ route('produtos.edit', $produto, $categorias) }}" class="btn btn-sm btn-outline-secondary">
                                     Editar
                                 </a>
 

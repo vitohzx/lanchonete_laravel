@@ -21,21 +21,23 @@
 </div>
 
 <div class="mb-3">
-    <label for="descricao" class="form-label">Preço</label>
-    <textarea class="form-control @error('descricao') is-invalid @enderror"
-              id="descricao" name="preco" rows="3" maxlength="500">{{ old('descricao', $produto->preco ?? '') }}</textarea>
-    @error('descricao')
+    <label for="preco" class="form-label">Preço</label>
+    <input class="form-control @error('descricao') is-invalid @enderror"
+              id="preco" name="preco" rows="3" maxlength="500" value="{{ old('preco', $produto->preco ?? '') }}"> </input>
+    @error('preco')
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>
 
 <div class="mb-3">
-    <label for="descricao" class="form-label">Categoria</label>
-    <textarea class="form-control @error('descricao') is-invalid @enderror"
-              id="descricao" name="preco" rows="3" maxlength="500">{{ old('descricao', $produto->preco ?? '') }}</textarea>
-    @error('descricao')
-        <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
+    <select name="categoria_id" id="" >
+        <option value="">Selecione uma categoria...</option>
+        @foreach ($categorias as $categoria)
+            <option value="{{ $categoria->id }}" {{ old('categoria_id', $produto->categoria_id ?? '') == $categoria->id ? 'selected' : '' }}>
+                {{ $categoria->nome }} 
+            </option>
+        @endforeach
+    </select>
 </div>
 
 <div class="form-check form-switch mb-3">
@@ -46,5 +48,5 @@
 
 <div class="d-flex gap-2">
     <button type="submit" class="btn btn-primary">{{ $isEdit ? 'Atualizar' : 'Salvar' }}</button>
-    <a href="{{ route('categorias.index') }}" class="btn btn-secondary"> Cancelar </a>
+    <a href="{{ route('produtos.index') }}" class="btn btn-secondary"> Cancelar </a>
 </div>
