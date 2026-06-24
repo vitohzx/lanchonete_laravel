@@ -9,6 +9,17 @@
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
 
             <form method="GET" action="{{ route('produtos.index') }}" class="d-flex gap-2">
+                <select name="categoria_id" class="form-select">
+                    <option value="">Todas as categorias</option>
+
+                    @foreach ($categorias as $categoria)
+                        <option value="{{ $categoria->id }}" {{ request('categoria_id') == $categoria->id ? 'selected' : '' }}>
+
+                            {{ $categoria->nome }}
+                        </option>
+
+                    @endforeach
+                </select>
                 <input type="text" name="q" value="{{ request('q') }}" class="form-control"
                     placeholder="Buscar por nome...">
                 <button class="btn btn-outline-secondary" type="submit">Buscar</button>
@@ -20,6 +31,8 @@
     </div>
     <div class="card">
         <div class="card-body p-0">
+
+
             <table class="table table-striped table-hover mb-0">
                 <thead class="table-light">
                     <tr>
@@ -44,7 +57,8 @@
                             </td>
                             <td>{{ $produto->updated_at->format('d/m/Y H:i') }}</td>
                             <td class="text-end">
-                                <a href="{{ route('produtos.edit', $produto, $categorias) }}" class="btn btn-sm btn-outline-secondary">
+                                <a href="{{ route('produtos.edit', $produto, $categorias) }}"
+                                    class="btn btn-sm btn-outline-secondary">
                                     Editar
                                 </a>
 
