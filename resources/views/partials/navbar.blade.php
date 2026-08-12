@@ -6,12 +6,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarConteudo">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a href="pedidos">Pedidos</a> </li> &emsp; &emsp;
                 <li class="nav-item"><a href="contato">Contato</a> </li> &emsp; &emsp;
                 <li class="nav-item"><a href="sobre">Sobre</a> </li> &emsp; &emsp;
                 @guest
                     <li class="nav-item"><a class="nav-link" href="{{ route('login.form') }}">Entrar</a></li> &emsp; &emsp;
-                    <li class="nav-item"><a class="nav-link" href="{{ route('register.form') }}">Criar conta</a></li> &emsp; &emsp;
+                    <li class="nav-item"><a class="nav-link" href="{{ route('register.form') }}">Criar conta</a></li> &emsp;
+                    &emsp;
                 @endguest
 
                 @auth
@@ -22,6 +22,7 @@
                     @endif
 
                     <li class="nav-item"><a href="{{ route('produtos.index') }}">Produtos</a></li> &emsp; &emsp;
+                    <li class="nav-item"> <a href="{{ route('pedidos.index') }}">Pedidos</a></li> &emsp; &emsp;
                     <li class="text-success">{{ auth()->user()->name }} ({{ auth()->user()->role }})</li> &emsp; &emsp;
                     <li class="nav-item"><a href="{{ route('profile.edit') }}">Minha Conta</a></li> &emsp; &emsp;
                     <li class="nav-item">
