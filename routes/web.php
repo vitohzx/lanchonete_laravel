@@ -28,29 +28,30 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form
 Route::post('/login', [AuthController::class, 'login'])->name('login')->middleware('guest');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
- 
-Route::middleware(['auth'])->group(function () {
-// Rota para exibir o formulário
-    Route::get('/minha-conta', [ProfileController::class, 'edit'])->name('profile.edit');
-// Rota para salvar as alterações
-    Route::put('/minha-conta', [ProfileController::class, 'update'])->name('profile.update');
-});
+
 
 Route::middleware(['auth'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::resource('produtos', ProdutoController::class);
-    Route::resource('pedidos', PedidoController::class);
 
-    Route::post('pedidos/{pedido}/itens', [ItemPedidoController::class, 'store'])->name('pedidos.itens.store');
-    Route::delete('pedidos/{pedido}/itens/{itemPedido}', [ItemPedidoController::class, 'destroy'])->name('pedidos.itens.destroy');
+    Route::group([
+        'middleware' => [
+            function ($request, $next) {
+                abort_unless(auth()->user()?->role == 'gerente', 403);
+                return $next($request);
+            }
+        ]
+    ], function () {
+        // Rota para exibir o formulário
+        Route::get('/minha-conta', [ProfileController::class, 'edit'])->name('profile.edit');
+        // Rota para salvar as alterações
+        Route::put('/minha-conta', [ProfileController::class, 'update'])->name('profile.update');
 
-
-        Route::group(['middleware' => [
-        function ($request, $next) {
-            abort_unless(auth()->user()?->role == 'gerente', 403);
-            return $next($request);
-        }
-    ]], function () {
         Route::resource('categorias', CategoriaController::class);
+        Route::resource('pedidos', PedidoController::class);
+
+        // rotas para itens de um pedido
+        Route::post('pedidos/{pedido}/itens', [ItemPedidoController::class, 'store'])->name('pedidos.itens.store');
+        Route::delete('pedidos/{pedido}/itens/{itemPedido}', [ItemPedidoController::class, 'destroy'])->name('pedidos.itens.destroy');
     });
 });

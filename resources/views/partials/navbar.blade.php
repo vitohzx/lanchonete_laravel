@@ -22,9 +22,11 @@
                     @endif
 
                     <li class="nav-item"><a href="{{ route('produtos.index') }}">Produtos</a></li> &emsp; &emsp;
-                    <li class="nav-item"> <a href="{{ route('pedidos.index') }}">Pedidos</a></li> &emsp; &emsp;
                     <li class="text-success">{{ auth()->user()->name }} ({{ auth()->user()->role }})</li> &emsp; &emsp;
                     <li class="nav-item"><a href="{{ route('profile.edit') }}">Minha Conta</a></li> &emsp; &emsp;
+                    <li class="nav-item">
+                        <a class="" href="{{ route('pedidos.index') }}">Pedidos</a>
+                    </li> &emsp; &emsp;
                     <li class="nav-item">
                         <form action="{{ route('logout') }}" method="POST" class="d-inline">
                             @csrf
