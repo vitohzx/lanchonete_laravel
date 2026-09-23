@@ -41,7 +41,7 @@
                     
                     <button class="btn btn-primary w-100" type="submit" id="btnSubmitAdd">
                         <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="spinnerAdd"></span>
-                        <span id="btnTextAdd">Adicionar</span>
+                        <span id="btnTextAdd">Adicionar"</span>
                     </button>
                 </form>
             </div>
