@@ -310,5 +310,86 @@
     }
   });
 </script>
- 
+
+<div class="card mt-3">
+  <div class="card-body">
+    <h5 class="fw-bold">Entrega</h5>
+
+    <div class="row g-2">
+      <div class="col-md-4">
+        <label class="form-label">CEP</label>
+        <input id="cep" class="form-control" placeholder="00000-000">
+        <div class="form-text">Digite o CEP e clique em Buscar.</div>
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button id="btnBuscarCep" class="btn btn-outline-secondary w-100" type="button">Buscar</button>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Logradouro</label>
+        <input id="logradouro" class="form-control">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Bairro</label>
+        <input id="bairro" class="form-control">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Cidade</label>
+        <input id="cidade" class="form-control">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">UF</label>
+        <input id="uf" class="form-control" maxlength="2">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.PW3CEP = {
+    urlBase: "{{ url('/cep') }}" // GET /cep/{cep}
+  };
+  function showToast(title, body) {
+  const el = document.getElementById('pw3Toast');
+  document.getElementById('pw3ToastTitle').textContent = title;
+  document.getElementById('pw3ToastBody').textContent = body;
+  const toast = bootstrap.Toast.getOrCreateInstance(el, { delay: 2500 });
+  toast.show();
+}
+
+function onlyDigits(v){
+  return (v || '').replace(/\D/g, '');
+}
+
+document.getElementById('btnBuscarCep')?.addEventListener('click', async () => {
+  const cepEl = document.getElementById('cep');
+  const cep = onlyDigits(cepEl.value);
+
+  try {
+    const resp = await fetch(`${window.PW3CEP.urlBase}/${cep}`, {
+      headers: { 'Accept': 'application/json' }
+    });
+
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      showToast('Erro', data.message || 'Falha ao consultar CEP.');
+      return;
+    }
+
+    document.getElementById('logradouro').value = data.logradouro || '';
+    document.getElementById('bairro').value = data.bairro || '';
+    document.getElementById('cidade').value = data.localidade || '';
+    document.getElementById('uf').value = data.uf || '';
+
+    showToast('Sucesso', data.message);
+  } catch (e) {
+    console.error(e);
+    showToast('Erro', 'Falha de conexão. Verifique servidor e internet.');
+  }
+});
+
+</script>
+
 @endsection

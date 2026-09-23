@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ItemPedidoController;
+use App\Http\Controllers\CepController;
  
  
  
@@ -46,6 +47,10 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('categorias', CategoriaController::class);
     });
 });
+
+
+Route::get('/cep/{cep}', [CepController::class, 'show'])->name('cep.show');
+
  
  
  
