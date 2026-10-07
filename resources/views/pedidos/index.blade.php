@@ -6,6 +6,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Pedidos</h2>
         <a class="btn btn-primary" href="{{ route('pedidos.create') }}">Novo Pedido</a>
+        <a class="btn btn-primary" href="{{ route('pedidos.relatorioDia') }}">relatório do dia</a>
     </div>
 
     <div class="card">
@@ -32,12 +33,17 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="5" class="text-center p-4 text-muted">Nenhum pedido.</td></tr>
+                        <tr>
+                            <td colspan="5" class="text-center p-4 text-muted">Nenhum pedido.</td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
 
-    <div class="mt-3">{{ $pedidos->links() }}</div>
+    <div class="mt-3 d-flex justify-content-center">
+        {{ $pedidos->links('pagination::bootstrap-5') }}
+    </div>
+
 @endsection
