@@ -16,8 +16,7 @@ use App\Http\Controllers\CepController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/sobre', [SobreController::class, 'index'])->name('sobre');
 Route::get('/contato', [ContatoController::class, 'index'])->name('contato');
-Route::resource('categorias', CategoriaController::class);
-Route::resource('produtos', ProdutoController::class);
+
  
 // Autenticação
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.form')->middleware('guest');
@@ -25,6 +24,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('register')-
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login')->middleware('guest');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+
  
 // CEP API
 Route::get('/cep/{cep}', [CepController::class, 'show'])->name('cep.show');
@@ -33,7 +34,8 @@ Route::get('/cep/{cep}', [CepController::class, 'show'])->name('cep.show');
 // Área Autenticada
 Route::middleware(['auth'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
-    Route::resource('produtos', ProdutoController::class);
+    Route::resource("produtos", ProdutoController::class);
+
     
     // Perfil
     Route::get('/minha-conta', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -47,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
         }
     ]], function () {
         Route::resource('categorias', CategoriaController::class);
+    
     });
  
     // PEDIDOS (Relatórios, Status e Resource)

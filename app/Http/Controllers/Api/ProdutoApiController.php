@@ -9,9 +9,36 @@ use Illuminate\Http\Request;
 
 class ProdutoApiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $produtos = Produto::with('categoria')->orderBy('nome')->paginate(10);
+        $q = $request->query('q');
+        $categoriaId = $request->query('categoria_id');
+
+        $query = Produto::query()->with('categoria');
+
+        if ($q) {
+            $q = substr($q, 0, 80); // limita tamanho
+            $query->where('nome', 'like', "%{$q}%");
+        }
+
+        if ($categoriaId) {
+            $query->where('categoria_id', (int) $categoriaId);
+        }
+
+        // Ordenação segura (whitelist)
+        $sort = $request->query('sort', 'nome');
+        $dir = strtolower($request->query('dir', 'asc'));
+
+        $allowedSort = ['nome', 'preco', 'created_at'];
+        $allowedDir = ['asc', 'desc'];
+
+        if (!in_array($sort, $allowedSort, true))
+            $sort = 'nome';
+        if (!in_array($dir, $allowedDir, true))
+            $dir = 'asc';
+
+        $produtos = $query->orderBy($sort, $dir)->paginate(10);
+
         return ProdutoResource::collection($produtos);
     }
 

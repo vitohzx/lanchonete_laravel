@@ -1,0 +1,56 @@
+openapi: 3.0.3
+info:
+  title: Lanchonete PW3 API
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:8000
+paths:
+  /api/login:
+    post:
+      summary: Gera token de acesso
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string }
+                device_name: { type: string }
+      responses:
+        '200':
+          description: Token gerado
+  /api/produtos:
+    get:
+      summary: Lista produtos (paginado)
+      parameters:
+        - in: query
+          name: q
+          schema: { type: string }
+        - in: query
+          name: categoria_id
+          schema: { type: integer }
+        - in: query
+          name: sort
+          schema: { type: string, enum: [nome, preco, created_at] }
+        - in: query
+          name: dir
+          schema: { type: string, enum: [asc, desc] }
+      responses:
+        '200':
+          description: Lista paginada
+    post:
+      summary: Cria produto
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Criado
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
